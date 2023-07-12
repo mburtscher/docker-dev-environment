@@ -2,7 +2,8 @@
     "name": "mburtscher/docker-dev-environment",
     "type": "composer-plugin",
     "require": {
-        "composer-plugin-api": "^2.0"
+        "composer-plugin-api": "^2.0",
+        "symfony/process": "^6.3"
     },
     "require-dev": {
         "composer/composer": "^2.0"

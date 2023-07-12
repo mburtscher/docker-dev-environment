@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+    app:
+        image: php:$PHP_VERSION
+        ports:
+            - "8080:8080"
+        volumes:
+            - $ROOT_DIR:/app
+            - ./entrypoint.sh:/entrypoint.sh
+        environment:
+            DOCUMENT_ROOT: $DOCUMENT_ROOT
+            EXTENSIONS: $PHP_EXTENSIONS
+        working_dir: /app
+        entrypoint: /entrypoint.sh
+        extra_hosts:
+            - host.docker.internal:host-gateway
