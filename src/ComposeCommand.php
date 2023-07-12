@@ -13,6 +13,10 @@ final class ComposeCommand
         'web',
     ];
 
+    private const DB_USER = 'app';
+    private const DB_PASSWORD = 'app';
+    private const DB_NAME = 'app';
+
     private string $name;
     private array $env = [];
     private array $composeFiles = [
@@ -55,10 +59,13 @@ final class ComposeCommand
         $res->env['PHP_VERSION'] = self::getPhpVersion($package);
         $res->env['PHP_EXTENSIONS'] = implode(' ', ($extensions = self::getPhpExtensions($package)));
 
-        // MySQL
-        if (in_array('mysql', $extensions) || in_array('mysli', $extensions) || in_array('pdo_mysql', $extensions)) {
-            $res->composeFiles[] = 'mysql.yml';
+        // Setup script
+        if (isset($package->getScripts()['setup'])) {
+            $res->env['SETUP_SCRIPT'] = 'setup';
         }
+
+        self::addMySql($res, $extensions);
+        self::addRedis($res, $extensions);
 
         return $res;
     }
@@ -97,8 +104,6 @@ final class ComposeCommand
         throw new Exception('PHP version could not befound. Are you missing a config.platform option in your composer.json?');
     }
 
-
-
     private static function getPhpExtensions(RootPackageInterface $package): array
     {
         $config = $package->getConfig();
@@ -112,5 +117,33 @@ final class ComposeCommand
         }
 
         return $res;
+    }
+
+    private static function addMySql(self $res, array $extensions): void
+    {
+        if (!array_intersect(['mysql', 'mysqli', 'mysqlnd', 'pdo_mysql'], $extensions)) {
+            return;
+        }
+
+        $res->composeFiles[] = 'mysql.yml';
+
+        $res->env['DB_HOST'] = 'mysql';
+        $res->env['DB_USER'] = self::DB_USER;
+        $res->env['DB_PASSWORD'] = self::DB_PASSWORD;
+        $res->env['DB_NAME'] = self::DB_NAME;
+
+        // Symfony
+        $res->env['DATABASE_URL'] = 'mysql://'.self::DB_USER.':'.self::DB_PASSWORD.'@mysql:3306/'.self::DB_NAME.'?serverVersion=8.0';
+    }
+
+    private static function addRedis(self $res, array $extensions): void
+    {
+        if (!array_intersect(['redis'], $extensions)) {
+            return;
+        }
+
+        $res->composeFiles[] = 'redis.yml';
+
+        $res->env['REDIS_HOST'] = 'redis';
     }
 }

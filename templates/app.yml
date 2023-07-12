@@ -11,6 +11,15 @@ services:
         environment:
             DOCUMENT_ROOT: $DOCUMENT_ROOT
             EXTENSIONS: $PHP_EXTENSIONS
+            SETUP_SCRIPT: $SETUP_SCRIPT
+            # MySQL
+            DB_HOST: $DB_HOST
+            DB_USER: $DB_USER
+            DB_PASSWORD: $DB_PASSWORD
+            DB_NAME: $DB_NAME
+            DATABASE_URL: $DATABASE_URL
+            # Redis
+            REDIS_HOST: $REDIS_HOST
         working_dir: /app
         entrypoint: /entrypoint.sh
         extra_hosts:

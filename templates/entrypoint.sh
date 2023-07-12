@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 # Install extension installer
 echo "Installing extension installer…"
@@ -9,10 +9,13 @@ chmod +x /usr/local/bin/install-php-extensions
 echo "Installing composer and extensions…"
 install-php-extensions @composer $EXTENSIONS
 
-# Install dependencies
-echo "Installing composer dependencies…"
-composer install
+# Run setup script
+if [ ! -z "$SETUP_SCRIPT" ]
+then
+  echo "Running setup script…"
+  composer run-script $SETUP_SCRIPT
+fi
 
 # Run the dev server
-echo "Running the dev server on port :8080…"
+echo "Running the dev server on port 8080…"
 php -S 0.0.0.0:8080 -t $DOCUMENT_ROOT
