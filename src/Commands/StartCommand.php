@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
+require_once __DIR__.'/../../vendor/autoload.php';
+
 class StartCommand extends BaseCommand
 {
 

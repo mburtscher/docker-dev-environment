@@ -5,6 +5,8 @@ namespace Mburtscher\DockerDevEnvironment;
 use Composer\Package\RootPackageInterface;
 use Exception;
 
+require_once __DIR__.'/../vendor/autoload.php';
+
 final class ComposeCommand
 {
     private const DOCUMENT_ROOT_PATHS = [

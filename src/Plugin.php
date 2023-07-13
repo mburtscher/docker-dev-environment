@@ -7,6 +7,8 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
 
+require_once __DIR__.'/../vendor/autoload.php';
+
 final class Plugin implements PluginInterface, Capable
 {
     public function activate(Composer $composer, IOInterface $io)

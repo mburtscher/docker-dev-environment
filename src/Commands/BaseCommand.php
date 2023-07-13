@@ -2,6 +2,8 @@
 
 namespace Mburtscher\DockerDevEnvironment\Commands;
 
+require_once __DIR__.'/../../vendor/autoload.php';
+
 abstract class BaseCommand extends \Composer\Command\BaseCommand
 {
     protected function getProjectIdentifier(): string
