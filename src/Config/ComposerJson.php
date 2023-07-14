@@ -4,9 +4,20 @@ namespace Mburtscher\DockerDevEnvironment\Config;
 
 final class ComposerJson
 {
-    public readonly string $name;
+    private readonly string $name;
     public readonly PlatformConfig $platform;
     public array $scripts = [];
+
+    public function getNormalizedName(): string
+    {
+        $name = $this->name;
+
+        if (str_contains($name, '/')) {
+            $name = substr($name, strpos($name, '/') + 1);
+        }
+
+        return strtolower(preg_replace('/[^a-z0-9\-]/', '-', $name));
+    }
 
     public static function fromFile(string $filename): ComposerJson
     {

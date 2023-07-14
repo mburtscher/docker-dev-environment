@@ -18,7 +18,7 @@ class EnterCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        passthru('docker exec -it '.$this->getProjectIdentifier().'-app-1 /bin/bash');
+        passthru('docker exec -it '.$this->getStackName().'-app-1 /bin/bash');
         return 0;
     }
 }

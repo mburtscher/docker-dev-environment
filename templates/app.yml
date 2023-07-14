@@ -13,7 +13,7 @@ services:
         ports:
             - "8080:8080"
         volumes:
-            - $ROOT_DIR:/app
+            - $PWD:/app
             - ./app/entrypoint.sh:/entrypoint.sh
         environment:
             DOCUMENT_ROOT: $DOCUMENT_ROOT

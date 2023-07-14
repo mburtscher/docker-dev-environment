@@ -3,7 +3,8 @@
 namespace Mburtscher\DockerDevEnvironment\Commands;
 
 use Exception;
-use Mburtscher\DockerDevEnvironment\ComposeCommand;
+use Mburtscher\DockerDevEnvironment\ComponentCollection;
+use Mburtscher\DockerDevEnvironment\Config\ComposerJson;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -21,19 +22,17 @@ class StopCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        try {
-            $command = ComposeCommand::fromConfig($this->getConfig());
-        } catch (Exception $ex) {
-            $output->writeln('<error>'.$ex->getMessage().'</error>');
-            return self::FAILURE;
-        }
-
         $output->writeln('Stopping environment…');
 
-        $process = new Process($command->getDownCommand());
+        $process = new Process($this->buildDownCommand());
         $process->setTimeout(null);
         $process->run(fn ($type, $buffer) => $output->write($buffer));
 
         return self::SUCCESS;
+    }
+
+    private function buildDownCommand(): array
+    {
+        return ['docker', 'compose', '-p', $this->getStackName(), 'down'];
     }
 }

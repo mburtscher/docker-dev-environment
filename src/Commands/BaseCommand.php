@@ -11,15 +11,9 @@ abstract class BaseCommand extends Command
 {
     private ?ComposerJson $config = null;
 
-    protected function getProjectIdentifier(): string
+    protected function getStackName(): string
     {
-        $name = $this->getConfig()->name;
-
-        if (str_contains($name, '/')) {
-            $name = substr($name, strpos($name, '/') + 1);
-        }
-
-        return strtolower(preg_replace('/[^a-z0-9\-]/', '-', $name));
+        return $this->getConfig()->getNormalizedName();
     }
 
     protected function getConfig(): ComposerJson
