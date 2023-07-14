@@ -12,6 +12,7 @@ final class MySqlComponent implements ComponentInterface
     function getEnvironmentVariables(): array
     {
         return [
+            'MYSQL_VERSION' => $this->version,
             'DB_HOST' => 'mysql',
             'DB_USER' => $this->user,
             'DB_PASSWORD' => $this->password,

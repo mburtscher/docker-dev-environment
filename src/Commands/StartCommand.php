@@ -31,6 +31,11 @@ class StartCommand extends BaseCommand
 
         $output->writeln('Starting environment…');
 
+        $output->writeln(implode(' ', $this->buildUpCommand($components)));
+        foreach ($components->getAllEnvironmentVariables() as $key => $value) {
+            $output->writeln($key.': '.$value);
+        }
+
         $process = new Process($this->buildUpCommand($components), null, $components->getAllEnvironmentVariables());
         $process->setTimeout(null);
         $process->run(fn ($type, $buffer) => $output->write($buffer));

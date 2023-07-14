@@ -25,7 +25,7 @@ final class ComponentCollection
 
         foreach ($this->components as $component) {
             foreach ($component->getComposeFiles() as $file) {
-                $files = __DIR__.'/../templates/'.$file;
+                $files[] = __DIR__.'/../templates/'.$file;
             }
         }
 
