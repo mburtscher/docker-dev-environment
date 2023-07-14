@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Mburtscher\DockerDevEnvironment\Commands\EnterCommand;
+use Mburtscher\DockerDevEnvironment\Commands\StartCommand;
+use Mburtscher\DockerDevEnvironment\Commands\StopCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application('Docker Development Environment');
+
+$application->addCommands([
+    new StartCommand(),
+    new StopCommand(),
+    new EnterCommand(),
+]);
+
+$application->run();

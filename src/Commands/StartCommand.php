@@ -15,14 +15,15 @@ class StartCommand extends BaseCommand
 
     protected function configure()
     {
-        $this->setName('start');
-        $this->setDescription('Starts the Docker development environment.');
+        $this
+            ->setName('start')
+            ->setDescription('Starts the Docker development environment.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $command = ComposeCommand::fromPackage($this->getApplication()->getComposer()->getPackage());
+            $command = ComposeCommand::fromConfig($this->getConfig());
         } catch (Exception $ex) {
             $output->writeln('<error>'.$ex->getMessage().'</error>');
             return self::FAILURE;
@@ -31,6 +32,7 @@ class StartCommand extends BaseCommand
         $output->writeln('Starting environment…');
 
         $process = new Process($command->getUpCommand(), null, $command->getUpEnvironment());
+        $process->setTimeout(null);
         $process->run(fn ($type, $buffer) => $output->write($buffer));
 
         return self::SUCCESS;

@@ -11,8 +11,9 @@ class EnterCommand extends BaseCommand
 {
     protected function configure()
     {
-        $this->setName('enter');
-        $this->setDescription('Enters the app container.');
+        $this
+            ->setName('enter')
+            ->setDescription('Enters the app container.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

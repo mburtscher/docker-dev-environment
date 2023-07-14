@@ -2,15 +2,21 @@ version: "3.8"
 
 services:
     app:
-        image: php:$PHP_VERSION
+        image: $APP_IMAGE
+        build:
+            dockerfile: app/Dockerfile
+            args:
+                PHP_VERSION: $PHP_VERSION
+                PHP_EXTENSIONS: $PHP_EXTENSIONS
+                PACKAGES: $PACKAGES
+                USER_ID: $USER_ID
         ports:
             - "8080:8080"
         volumes:
             - $ROOT_DIR:/app
-            - ./entrypoint.sh:/entrypoint.sh
+            - ./app/entrypoint.sh:/entrypoint.sh
         environment:
             DOCUMENT_ROOT: $DOCUMENT_ROOT
-            EXTENSIONS: $PHP_EXTENSIONS
             SETUP_SCRIPT: $SETUP_SCRIPT
             # MySQL
             DB_HOST: $DB_HOST
