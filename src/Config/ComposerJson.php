@@ -2,6 +2,8 @@
 
 namespace Mburtscher\DockerDevEnvironment\Config;
 
+use stdClass;
+
 final class ComposerJson
 {
     private readonly string $name;

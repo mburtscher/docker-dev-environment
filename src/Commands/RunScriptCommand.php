@@ -8,19 +8,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-class EnterCommand extends BaseCommand
+class RunScriptCommand extends BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('enter')
-            ->setDescription('Enters a specific component container.')
-            ->addArgument('component', InputArgument::OPTIONAL, 'The component to enter.', 'app');
+            ->setName('run-script')
+            ->setDescription('Runs a composer script within the app container.')
+            ->addArgument('script', InputArgument::REQUIRED, 'The Composer script name.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        passthru('docker exec -it '.$this->getStackName().'-'.$input->getArgument('component').'-1 /bin/bash');
+        passthru('docker exec -it '.$this->getStackName().'-app-1 composer '.escapeshellarg($input->getArgument('script')));
         return 0;
     }
 }

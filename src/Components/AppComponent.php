@@ -12,11 +12,14 @@ final class AppComponent implements ComponentInterface
         'web',
     ];
 
+    private const DEFAULT_COMPOSER_VERSION = 1;
+
     private string $name;
     private string $version;
     private array $extensions;
     private ?string $setupScript;
     private ?string $documentRoot;
+    private int $composerVersion;
 
     public function __construct(ComposerJson $json)
     {
@@ -25,6 +28,7 @@ final class AppComponent implements ComponentInterface
         $this->extensions = $json->platform->extensions;
         $this->setupScript = $json->scripts['setup'] ?? null;
         $this->documentRoot = $this->getDocumentRoot();
+        $this->composerVersion = $json->platform->composerVersion ?? self::DEFAULT_COMPOSER_VERSION;
     }
 
     function getEnvironmentVariables(): array
@@ -36,6 +40,7 @@ final class AppComponent implements ComponentInterface
             'PHP_EXTENSIONS' => implode(' ', $this->extensions),
             'SETUP_SCRIPT' => $this->setupScript,
             'APP_IMAGE' => $this->name.':'.md5($this->version.implode(' ', $this->extensions)),
+            'COMPOSER_VERSION' => $this->composerVersion,
         ];
     }
 
